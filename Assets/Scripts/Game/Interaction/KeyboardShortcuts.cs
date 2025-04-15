@@ -5,6 +5,15 @@ namespace DLS.Game
 {
 	public static class KeyboardShortcuts
 	{
+		public static void Update()
+		{
+    			if (InputHelper.IsKeyDownThisFrame(KeyCode.RightControl) && !(InputHelper.CtrlIsHeld || InputHelper.AltIsHeld || InputHelper.ShiftIsHeld))
+    			{
+        			ToggleSnapping();
+    			}
+		}
+
+		public static bool SnapToGrid;
 		// ---- Main Menu shortcuts
 		public static bool MainMenu_NewProjectShortcutTriggered => CtrlShortcutTriggered(KeyCode.N);
 		public static bool MainMenu_OpenProjectShortcutTriggered => CtrlShortcutTriggered(KeyCode.O);
@@ -35,7 +44,7 @@ namespace DLS.Game
 		public static bool OpenSaveDataFolderShortcutTriggered => InputHelper.IsKeyDownThisFrame(KeyCode.O) && InputHelper.CtrlIsHeld && InputHelper.ShiftIsHeld && InputHelper.AltIsHeld;
 
 		// ---- Modifiers ----
-		public static bool SnapModeHeld => InputHelper.CtrlIsHeld;
+		public static bool SnapModeHeld => SnapToGrid;
 
 		// In "Multi-mode", placed chips will be duplicated once placed to allow placing again; selecting a chip will add it to the current selection; etc.
 		public static bool MultiModeHeld => InputHelper.AltIsHeld || InputHelper.ShiftIsHeld;
@@ -47,5 +56,20 @@ namespace DLS.Game
 		// ---- Helpers ----
 		static bool CtrlShortcutTriggered(KeyCode key) => InputHelper.IsKeyDownThisFrame(key) && InputHelper.CtrlIsHeld && !(InputHelper.AltIsHeld || InputHelper.ShiftIsHeld);
 		static bool ShiftShortcutTriggered(KeyCode key) => InputHelper.IsKeyDownThisFrame(key) && InputHelper.ShiftIsHeld && !(InputHelper.AltIsHeld || InputHelper.CtrlIsHeld);
+
+		public static bool ToggleSnapping()
+		{
+    			bool debugVar = SnapToGrid;
+    			if (SnapToGrid == false)
+    			{
+        			SnapToGrid = true;
+    			}
+    			else
+    			{
+        			SnapToGrid = false;
+    			}
+
+    			return SnapToGrid;
+		}
 	}
 }
